@@ -8,7 +8,7 @@ const channels = [
   dc.channel('http.fastify.onResponse')
 ]
 
-channels.map(channel => {
+channels.forEach(channel => {
   channel.subscribe((message, name) => {
     console.info('Triggered:', name, message)
   })
