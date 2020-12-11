@@ -20,6 +20,25 @@ fastify.register(require('fastify-diagnostics-channel'), {})
 
 ## Which information is provided?
 
+1. [onRoute Channel](#onroute-channel)
+2. [onResponse Channel](#onresponse-channel)
+3. [onError Channel](#onerror-channel)
+4. [onTimeout Channel](#ontimeout-channel)
+
+### onRoute Channel
+
+// TODO
+
+### onResponse Channel
+
+// TODO
+
+### onError Channel
+
+// TODO
+
+### onTimeout Channel
+
 // TODO
 
 ## License
