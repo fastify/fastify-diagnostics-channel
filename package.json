@@ -2,9 +2,8 @@
   "name": "fastify-diagnostics-channel",
   "version": "0.0.0",
   "description": "Plugin to deal with diagnostics_channel on Fastify",
-  "main": "index.js",
+  "main": "lib/index.js",
   "directories": {
-    "doc": "docs",
     "example": "examples",
     "test": "test"
   },
@@ -15,7 +14,11 @@
     "type": "git",
     "url": "git+https://github.com/fastify/fastify-diagnostics-channel.git"
   },
-  "keywords": [],
+  "keywords": [
+    "fastify",
+    "diagnostics",
+    "diagnostics_channel"
+  ],
   "author": "Fastify Team",
   "license": "MIT",
   "bugs": {
@@ -27,5 +30,7 @@
   },
   "devDependencies": {
     "fastify": "^3.9.1"
+  "engines": {
+    "node": ">=15.0.0"
   }
 }
