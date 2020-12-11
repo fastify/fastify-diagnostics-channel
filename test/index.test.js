@@ -1,0 +1,150 @@
+'use strict'
+
+const { test } = require('tap')
+const Fastify = require('fastify')
+const dcPlugin = require('../lib/index')
+const dc = require('diagnostics_channel')
+const sget = require('simple-get').concat
+
+test('Should call publish when route is registered', t => {
+  t.plan(6)
+  const fastify = Fastify()
+
+  const onRouteChannel = dc.channel('http.fastify.onRoute')
+  let timesCalled = 0
+  const routeOptions = [
+    {
+      method: 'GET',
+      url: '/test/1',
+      path: '/test/1',
+      routePath: '/1',
+      prefix: '/test',
+      logLevel: '',
+      attachValidation: false
+    },
+    {
+      method: 'POST',
+      url: '/test/2',
+      path: '/test/2',
+      routePath: '/2',
+      prefix: '/test',
+      logLevel: '',
+      attachValidation: false
+    }
+  ]
+  const onMessage = (message) => {
+    timesCalled += 1
+    t.deepEqual(message, { ...routeOptions.shift(), handler: message.handler })
+    t.strictEqual(typeof message.handler, 'function')
+  }
+
+  onRouteChannel.subscribe(onMessage)
+  fastify.register(dcPlugin)
+  fastify.register((instance, _opts, done) => {
+    instance.get('/1', (_request, reply) => reply.send({}))
+    instance.post('/2', (_request, reply) => reply.send({}))
+    done()
+  }, { prefix: '/test' })
+
+  fastify.ready(err => {
+    t.error(err)
+    t.equal(timesCalled, 2)
+    onRouteChannel.unsubscribe(onMessage)
+  })
+})
+
+test('Should call publish when response is sent', t => {
+  t.plan(3)
+  const fastify = Fastify()
+
+  const onResponseChannel = dc.channel('http.fastify.onResponse')
+  const onMessage = (message) => {
+    t.deepEqual(message, {
+      protocol: 'http',
+      method: 'GET',
+      url: '/',
+      statusCode: 200,
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+        'content-length': '2'
+      }
+    })
+  }
+
+  onResponseChannel.subscribe(onMessage)
+  fastify.register(dcPlugin)
+  fastify.get('/', (_request, reply) => reply.send({}))
+
+  fastify.inject({
+    method: 'GET',
+    path: '/'
+  }, (err, res) => {
+    t.error(err)
+    t.equal(res.statusCode, 200)
+    onResponseChannel.unsubscribe(onMessage)
+  })
+})
+
+test('Should call publish when some error is throw', t => {
+  t.plan(3)
+  const fastify = Fastify()
+
+  const onErrorChannel = dc.channel('http.fastify.onError')
+  const error = new Error('test error')
+  const onMessage = (message) => {
+    t.deepEqual(message, {
+      error,
+      protocol: 'http',
+      method: 'GET',
+      url: '/'
+    })
+  }
+
+  onErrorChannel.subscribe(onMessage)
+  fastify.register(dcPlugin)
+  fastify.get('/', (_request) => {
+    throw error
+  })
+
+  fastify.inject({
+    method: 'GET',
+    path: '/'
+  }, (err, res) => {
+    t.error(err)
+    t.equal(res.statusCode, 500)
+    onErrorChannel.unsubscribe(onMessage)
+  })
+})
+
+test('Should call publish when timeout happens', t => {
+  t.plan(3)
+  const fastify = Fastify({ connectionTimeout: 200 })
+  const onTimeoutChannel = dc.channel('http.fastify.onTimeout')
+  const onMessage = (message) => {
+    t.deepEqual(message, {
+      protocol: 'http',
+      method: 'GET',
+      url: '/'
+    })
+  }
+
+  onTimeoutChannel.subscribe(onMessage)
+  fastify.register(dcPlugin)
+  fastify.get('/', async (_request, reply) => {
+    await new Promise((resolve) => setTimeout(resolve, 300))
+    reply.send({})
+  })
+
+  fastify.listen(0, (err, address) => {
+    t.error(err)
+    t.tearDown(() => fastify.close())
+
+    sget({
+      method: 'GET',
+      url: `${address}/`
+    }, (err) => {
+      t.ok(err)
+      onTimeoutChannel.unsubscribe(onMessage)
+    })
+  })
+})
