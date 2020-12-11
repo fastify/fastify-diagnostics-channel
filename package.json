@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/fastify/fastify-diagnostics-channel/issues"
   },
-  "homepage": "https://github.com/fastify/fastify-diagnostics-channel#readme"
+  "homepage": "https://github.com/fastify/fastify-diagnostics-channel#readme",
+  "dependencies": {
+    "fastify-plugin": "^3.0.0"
+  },
+  "devDependencies": {
+    "fastify": "^3.9.1"
+  }
 }
