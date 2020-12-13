@@ -17,7 +17,7 @@ channels.forEach(channel => {
 
 fastify.register(require('../lib/index'))
 
-fastify.get('/', (_request, reply) => {
+fastify.get('/params/:id', (_request, reply) => {
   reply.send({})
 })
 

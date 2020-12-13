@@ -6,6 +6,7 @@ export declare interface OnTimeoutEvent {
   protocol: 'http' | 'https';
   url: string;
   method: HTTPMethods | HTTPMethods[];
+  route: string;
 }
 
 export declare interface OnErrorEvent {
@@ -13,6 +14,7 @@ export declare interface OnErrorEvent {
   url: string;
   method: HTTPMethods | HTTPMethods[];
   error: Error;
+  route: string;
 }
 
 export declare interface OnResponseEvent {
@@ -20,6 +22,7 @@ export declare interface OnResponseEvent {
   url: string;
   method: HTTPMethods | HTTPMethods[];
   statusCode: number;
+  route: string;
   headers: string[];
 }
 
@@ -27,4 +30,5 @@ export declare interface onRequestEvent {
   protocol: 'http' | 'https';
   url: string;
   method: HTTPMethods | HTTPMethods[];
+  route: string;
 }

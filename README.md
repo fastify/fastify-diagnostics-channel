@@ -67,6 +67,7 @@ onResponse.subscribe((data) => {
   data.protocol // 'http | https'
   data.method
   data.url // the complete URL of the route, it will inclued the prefix if any
+  data.route // raw route. e.g /route/:id
   data.statusCode // statusCode sent for this request
   data.headers // headers sent for this request
 })
@@ -105,6 +106,7 @@ const onTimeout = dc.channel('fastify.onTimeout')
 onTimeout.subscribe((data) => {
   data.protocol // 'http | https'
   data.method
+  data.route // raw route. e.g /route/:id
   data.url // the complete URL of the route, it will inclued the prefix if any
 })
 ```
@@ -121,6 +123,7 @@ const onRequest = dc.channel('fastify.onRequest')
 
 onRequest.subscribe((data) => {
   data.protocol // 'http | https'
+  data.route // raw route. e.g /route/:id
   data.method
   data.url // the complete URL of the route, it will inclued the prefix if any
 })
