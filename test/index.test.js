@@ -116,9 +116,42 @@ test('Should call publish when some error is throw', t => {
   })
 })
 
+test('Should call onRequest when some request happens', t => {
+  t.plan(4)
+  const fastify = Fastify()
+
+  const onRequestChannel = dc.channel('fastify.onRequest')
+  const onMessage = (message) => {
+    t.deepEqual(message, {
+      protocol: 'http',
+      method: 'GET',
+      url: '/'
+    })
+  }
+
+  onRequestChannel.subscribe(onMessage)
+  fastify.register(dcPlugin)
+  fastify.get('/', (_request, reply) => reply.send({}))
+
+  fastify.listen(0, (err, address) => {
+    t.error(err)
+    t.tearDown(() => fastify.close())
+
+    sget({
+      method: 'GET',
+      url: `${address}/`
+    }, (err, res) => {
+      t.error(err)
+      t.equal(res.statusCode, 200)
+      onRequestChannel.unsubscribe(onMessage)
+    })
+  })
+})
+
 test('Should call publish when timeout happens', t => {
   t.plan(3)
   const fastify = Fastify({ connectionTimeout: 200 })
+
   const onTimeoutChannel = dc.channel('fastify.onTimeout')
   const onMessage = (message) => {
     t.deepEqual(message, {

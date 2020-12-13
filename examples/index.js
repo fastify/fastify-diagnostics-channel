@@ -5,7 +5,8 @@ const channels = [
   dc.channel('fastify.onRoute'),
   dc.channel('fastify.onTimeout'),
   dc.channel('fastify.onError'),
-  dc.channel('fastify.onResponse')
+  dc.channel('fastify.onResponse'),
+  dc.channel('fastify.onRequest')
 ]
 
 channels.forEach(channel => {

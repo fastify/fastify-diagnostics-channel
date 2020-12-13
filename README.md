@@ -26,6 +26,7 @@ _**Note**: check [examples/](./examples/index.js) to further information_
 2. [onResponse Channel](#onresponse-channel)
 3. [onError Channel](#onerror-channel)
 4. [onTimeout Channel](#ontimeout-channel)
+4. [onRequest Channel](#onrequest-channel)
 
 The channels are prefixed by: `fastify.{HOOK_NAME}`
 
@@ -102,6 +103,23 @@ const dc = require('diagnostics_channel')
 const onTimeout = dc.channel('fastify.onTimeout')
 
 onTimeout.subscribe((data) => {
+  data.protocol // 'http | https'
+  data.method
+  data.url // the complete URL of the route, it will inclued the prefix if any
+})
+```
+
+### onRequest Channel
+
+**Channel**: `fastify.onRequest`
+
+This event is sent when a request is received
+
+```js
+const dc = require('diagnostics_channel')
+const onRequest = dc.channel('fastify.onRequest')
+
+onRequest.subscribe((data) => {
   data.protocol // 'http | https'
   data.method
   data.url // the complete URL of the route, it will inclued the prefix if any

@@ -22,3 +22,9 @@ export declare interface OnResponseEvent {
   statusCode: number;
   headers: string[];
 }
+
+export declare interface onRequestEvent {
+  protocol: 'http' | 'https';
+  url: string;
+  method: HTTPMethods | HTTPMethods[];
+}
