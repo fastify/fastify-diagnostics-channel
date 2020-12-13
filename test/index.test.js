@@ -10,7 +10,7 @@ test('Should call publish when route is registered', t => {
   t.plan(6)
   const fastify = Fastify()
 
-  const onRouteChannel = dc.channel('http.fastify.onRoute')
+  const onRouteChannel = dc.channel('fastify.onRoute')
   let timesCalled = 0
   const routeOptions = [
     {
@@ -57,7 +57,7 @@ test('Should call publish when response is sent', t => {
   t.plan(3)
   const fastify = Fastify()
 
-  const onResponseChannel = dc.channel('http.fastify.onResponse')
+  const onResponseChannel = dc.channel('fastify.onResponse')
   const onMessage = (message) => {
     t.deepEqual(message, {
       protocol: 'http',
@@ -89,7 +89,7 @@ test('Should call publish when some error is throw', t => {
   t.plan(3)
   const fastify = Fastify()
 
-  const onErrorChannel = dc.channel('http.fastify.onError')
+  const onErrorChannel = dc.channel('fastify.onError')
   const error = new Error('test error')
   const onMessage = (message) => {
     t.deepEqual(message, {
@@ -119,7 +119,7 @@ test('Should call publish when some error is throw', t => {
 test('Should call publish when timeout happens', t => {
   t.plan(3)
   const fastify = Fastify({ connectionTimeout: 200 })
-  const onTimeoutChannel = dc.channel('http.fastify.onTimeout')
+  const onTimeoutChannel = dc.channel('fastify.onTimeout')
   const onMessage = (message) => {
     t.deepEqual(message, {
       protocol: 'http',

@@ -27,17 +27,17 @@ _**Note**: check [examples/](./examples/index.js) to further information_
 3. [onError Channel](#onerror-channel)
 4. [onTimeout Channel](#ontimeout-channel)
 
-The channels are prefixed by: `http.fastify.{HOOK_NAME}`
+The channels are prefixed by: `fastify.{HOOK_NAME}`
 
 ### onRoute Channel
 
-**Channel**: `http.fastify.onRoute`
+**Channel**: `fastify.onRoute`
 
 This event is sent at every route registered passing a `routeOptions` object
 
 ```js
 const dc = require('diagnostics_channel')
-const onRoute = dc.channel('http.fastify.onRoute')
+const onRoute = dc.channel('fastify.onRoute')
 
 onRoute.subscribe((routeOptions) => {
   routeOptions.method
@@ -54,13 +54,13 @@ onRoute.subscribe((routeOptions) => {
 
 ### onResponse Channel
 
-**Channel**: `http.fastify.onResponse`
+**Channel**: `fastify.onResponse`
 
 This event is sent at every response sent by server, it propagate an object contaning: _protocol, method, url, statusCode, headers_
 
 ```js
 const dc = require('diagnostics_channel')
-const onResponse = dc.channel('http.fastify.onResponse')
+const onResponse = dc.channel('fastify.onResponse')
 
 onResponse.subscribe((data) => {
   data.protocol // 'http | https'
@@ -73,13 +73,13 @@ onResponse.subscribe((data) => {
 
 ### onError Channel
 
-**Channel**: `http.fastify.onError`
+**Channel**: `fastify.onError`
 
 This event is sent when some error is throw on the [lifecycle](https://www.fastify.io/docs/latest/Lifecycle/) of fastify.
 
 ```js
 const dc = require('diagnostics_channel')
-const onError = dc.channel('http.fastify.onError')
+const onError = dc.channel('fastify.onError')
 
 onError.subscribe((data) => {
   data.protocol // 'http | https'
@@ -91,7 +91,7 @@ onError.subscribe((data) => {
 
 ### onTimeout Channel
 
-**Channel**: `http.fastify.onTimeout`
+**Channel**: `fastify.onTimeout`
 
 This event is sent when a request spent more time that [`connectionTimeout`](https://www.fastify.io/docs/latest/Server/#connectiontimeout) specify. For further information about `connectionTimeout` check the Fastify documentation.
 
@@ -99,7 +99,7 @@ Note: by default the fastify does not limit the request time.
 
 ```js
 const dc = require('diagnostics_channel')
-const onTimeout = dc.channel('http.fastify.onTimeout')
+const onTimeout = dc.channel('fastify.onTimeout')
 
 onTimeout.subscribe((data) => {
   data.protocol // 'http | https'

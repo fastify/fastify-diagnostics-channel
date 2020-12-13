@@ -2,10 +2,10 @@ const fastify = require('fastify')({ logger: true, connectionTimeout: 2000 })
 const dc = require('diagnostics_channel')
 
 const channels = [
-  dc.channel('http.fastify.onRoute'),
-  dc.channel('http.fastify.onTimeout'),
-  dc.channel('http.fastify.onError'),
-  dc.channel('http.fastify.onResponse')
+  dc.channel('fastify.onRoute'),
+  dc.channel('fastify.onTimeout'),
+  dc.channel('fastify.onError'),
+  dc.channel('fastify.onResponse')
 ]
 
 channels.forEach(channel => {
