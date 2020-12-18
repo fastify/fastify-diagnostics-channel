@@ -94,7 +94,7 @@ onError.subscribe((data) => {
 
 This event is sent when a request spent more time that [`connectionTimeout`](https://www.fastify.io/docs/latest/Server/#connectiontimeout) specify. For further information about `connectionTimeout` check the Fastify documentation.
 
-The message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
+The message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md) and `connectionTimeout` value
 
 Note: by default the fastify does not limit the request time.
 
@@ -103,6 +103,7 @@ const dc = require('diagnostics_channel')
 const onTimeout = dc.channel('fastify.onTimeout')
 
 onTimeout.subscribe((data) => {
+  data.connectionTimeout
   data.reply
   data.request
 })
