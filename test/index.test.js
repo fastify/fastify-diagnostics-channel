@@ -70,21 +70,20 @@ test('Should call publish when response is sent', t => {
   const onResponseChannel = dc.channel('fastify.onResponse')
   const onMessage = (message) => {
     t.deepEqual(message, {
-      protocol: 'http',
-      method: 'GET',
-      url: '/',
-      route: '/',
-      statusCode: 200,
-      headers: {
-        'content-type': 'application/json; charset=utf-8',
-        'content-length': '2'
-      }
+      reply: replyObj,
+      request: requestObj
     })
   }
 
+  let replyObj, requestObj
   onResponseChannel.subscribe(onMessage)
+
   fastify.register(dcPlugin)
-  fastify.get('/', (_request, reply) => reply.send({}))
+  fastify.get('/', (request, reply) => {
+    replyObj = reply
+    requestObj = request
+    reply.send({})
+  })
 
   fastify.inject({
     method: 'GET',
@@ -105,16 +104,18 @@ test('Should call publish when some error is throw', t => {
   const onMessage = (message) => {
     t.deepEqual(message, {
       error,
-      protocol: 'http',
-      method: 'GET',
-      url: '/',
-      route: '/'
+      reply: replyObj,
+      request: requestObj
     })
   }
 
+  let replyObj, requestObj
   onErrorChannel.subscribe(onMessage)
+
   fastify.register(dcPlugin)
-  fastify.get('/', (_request) => {
+  fastify.get('/', (request, reply) => {
+    replyObj = reply
+    requestObj = request
     throw error
   })
 
@@ -129,20 +130,16 @@ test('Should call publish when some error is throw', t => {
 })
 
 test('Should call onRequest when some request happens', t => {
-  t.plan(4)
+  t.plan(5)
   const fastify = Fastify()
 
   const onRequestChannel = dc.channel('fastify.onRequest')
   const onMessage = (message) => {
-    t.deepEqual(message, {
-      protocol: 'http',
-      method: 'GET',
-      url: '/1',
-      route: '/:id'
-    })
+    t.equal(typeof message.request, 'object')
+    t.equal(typeof message.reply, 'object')
   }
-
   onRequestChannel.subscribe(onMessage)
+
   fastify.register(dcPlugin)
   fastify.get('/:id', (_request, reply) => reply.send({}))
 
@@ -168,16 +165,19 @@ test('Should call publish when timeout happens', t => {
   const onTimeoutChannel = dc.channel('fastify.onTimeout')
   const onMessage = (message) => {
     t.deepEqual(message, {
-      protocol: 'http',
-      method: 'GET',
-      url: '/1',
-      route: '/:id'
+      request: requestObj,
+      reply: replyObj,
+      connectionTimeout: 200
     })
   }
 
+  let replyObj, requestObj
   onTimeoutChannel.subscribe(onMessage)
+
   fastify.register(dcPlugin)
-  fastify.get('/:id', async (_request, reply) => {
+  fastify.get('/:id', async (request, reply) => {
+    requestObj = request
+    replyObj = reply
     await new Promise((resolve) => setTimeout(resolve, 300))
     reply.send({})
   })
