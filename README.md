@@ -18,9 +18,112 @@ const fastify = require('fastify')()
 fastify.register(require('fastify-diagnostics-channel'), {})
 ```
 
+_**Note**: check [examples/](./examples/index.js) to further information_
+
 ## Which information is provided?
 
-// TODO
+1. [onRoute Channel](#onroute-channel)
+2. [onResponse Channel](#onresponse-channel)
+3. [onError Channel](#onerror-channel)
+4. [onTimeout Channel](#ontimeout-channel)
+4. [onRequest Channel](#onrequest-channel)
+
+The channels are prefixed by: `fastify.{HOOK_NAME}`
+
+### onRoute Channel
+
+**Channel**: `fastify.onRoute`
+
+This event is sent at every route registered passing a `routeOptions` object
+
+```js
+const dc = require('diagnostics_channel')
+const onRoute = dc.channel('fastify.onRoute')
+
+onRoute.subscribe((routeOptions) => {
+  routeOptions.method
+  routeOptions.schema
+  routeOptions.url // the complete URL of the route, it will inclued the prefix if any
+  routeOptions.path // `url` alias
+  routeOptions.routePath // the URL of the route without the prefix
+  routeOptions.bodyLimit
+  routeOptions.logLevel
+  routeOptions.logSerializers
+  routeOptions.prefix
+})
+```
+
+### onResponse Channel
+
+**Channel**: `fastify.onResponse`
+
+This event is sent at every response sent by server, it propagate an object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
+
+```js
+const dc = require('diagnostics_channel')
+const onResponse = dc.channel('fastify.onResponse')
+
+onResponse.subscribe((data) => {
+  data.request
+  data.reply
+})
+```
+
+### onError Channel
+
+**Channel**: `fastify.onError`
+
+This event is sent when some error is throw on the [lifecycle](https://www.fastify.io/docs/latest/Lifecycle/) of fastify.
+
+The message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md), [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md) and Error object
+
+```js
+const dc = require('diagnostics_channel')
+const onError = dc.channel('fastify.onError')
+
+onError.subscribe((data) => {
+  data.request
+  data.reply
+  data.error // error object throwed
+})
+```
+
+### onTimeout Channel
+
+**Channel**: `fastify.onTimeout`
+
+This event is sent when a request spent more time that [`connectionTimeout`](https://www.fastify.io/docs/latest/Server/#connectiontimeout) specify. For further information about `connectionTimeout` check the Fastify documentation.
+
+The message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md) and `connectionTimeout` value
+
+Note: by default the fastify does not limit the request time.
+
+```js
+const dc = require('diagnostics_channel')
+const onTimeout = dc.channel('fastify.onTimeout')
+
+onTimeout.subscribe((data) => {
+  data.connectionTimeout
+  data.reply
+  data.request
+})
+```
+
+### onRequest Channel
+
+**Channel**: `fastify.onRequest`
+
+This event is sent when a request is received, the message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
+
+```js
+const dc = require('diagnostics_channel')
+const onRequest = dc.channel('fastify.onRequest')
+
+onRequest.subscribe((data) => {
+  data.request
+  data.reply
+})
+```
 
 ## License
 

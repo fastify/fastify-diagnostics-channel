@@ -2,24 +2,40 @@
   "name": "fastify-diagnostics-channel",
   "version": "0.0.0",
   "description": "Plugin to deal with diagnostics_channel on Fastify",
-  "main": "index.js",
+  "main": "lib/index.js",
   "directories": {
-    "doc": "docs",
     "example": "examples",
     "test": "test"
   },
+  "types": "types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard && tap test/*.test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fastify/fastify-diagnostics-channel.git"
   },
-  "keywords": [],
+  "keywords": [
+    "fastify",
+    "diagnostics",
+    "diagnostics_channel"
+  ],
   "author": "Fastify Team",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fastify/fastify-diagnostics-channel/issues"
   },
-  "homepage": "https://github.com/fastify/fastify-diagnostics-channel#readme"
+  "homepage": "https://github.com/fastify/fastify-diagnostics-channel#readme",
+  "dependencies": {
+    "fastify-plugin": "^3.0.0"
+  },
+  "devDependencies": {
+    "fastify": "^3.9.1",
+    "simple-get": "^4.0.0",
+    "standard": "^16.0.3",
+    "tap": "^14.11.0"
+  },
+  "engines": {
+    "node": ">=15.0.0"
+  }
 }
