@@ -1,7 +1,9 @@
 # fastify-diagnostics-channel
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/) 
 ![CI](https://github.com/fastify/fastify-diagnostics-channel/workflows/Continuous%20Integration/badge.svg)
+[![NPM version](https://img.shields.io/npm/v/fastify-diagnostics-channel.svg?style=flat)](https://www.npmjs.com/package/fastify-diagnostics-channel)
+[![Known Vulnerabilities](https://snyk.io/test/github/fastify/fastify-diagnostics-channel/badge.svg)](https://snyk.io/test/github/fastify/fastify-diagnostics-channel)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
 
 ## Install
 ```sh
@@ -20,7 +22,7 @@ fastify.register(require('fastify-diagnostics-channel'), {})
 
 _**Note**: check [examples/](./examples/index.js) to further information_
 
-## Which information is provided?
+## What information is provided?
 
 1. [onRoute Channel](#onroute-channel)
 2. [onResponse Channel](#onresponse-channel)
@@ -57,7 +59,7 @@ onRoute.subscribe((routeOptions) => {
 
 **Channel**: `fastify.onResponse`
 
-This event is sent at every response sent by server, it propagate an object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
+This event is sent at every response sent by server, it propagates an object containing: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
 
 ```js
 const dc = require('diagnostics_channel')
@@ -73,9 +75,9 @@ onResponse.subscribe((data) => {
 
 **Channel**: `fastify.onError`
 
-This event is sent when some error is throw on the [lifecycle](https://www.fastify.io/docs/latest/Lifecycle/) of fastify.
+This event is sent when some error is throw on the [lifecycle](https://www.fastify.io/docs/latest/Lifecycle/) of Fastify.
 
-The message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md), [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md) and Error object
+The message data is an object containing a [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md), [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md), and Error object
 
 ```js
 const dc = require('diagnostics_channel')
@@ -92,11 +94,11 @@ onError.subscribe((data) => {
 
 **Channel**: `fastify.onTimeout`
 
-This event is sent when a request spent more time that [`connectionTimeout`](https://www.fastify.io/docs/latest/Server/#connectiontimeout) specify. For further information about `connectionTimeout` check the Fastify documentation.
+This event is sent when a request spent more time than [`connectionTimeout`](https://www.fastify.io/docs/latest/Server/#connectiontimeout) specifies. For further information about `connectionTimeout` check the Fastify documentation.
 
-The message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md) and `connectionTimeout` value
+The message data is an object containing a [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md), [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md), and `connectionTimeout` value
 
-Note: by default the fastify does not limit the request time.
+Note: by default the Fastify does not limit the request time.
 
 ```js
 const dc = require('diagnostics_channel')
@@ -113,7 +115,7 @@ onTimeout.subscribe((data) => {
 
 **Channel**: `fastify.onRequest`
 
-This event is sent when a request is received, the message data is a object contaning: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
+This event is sent when a request is received; the message data is an object containing a [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
 
 ```js
 const dc = require('diagnostics_channel')
