@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [15.x]
+        node-version: [15]
         os: [ubuntu-latest, windows-latest, macOS-latest]
     name: Node ${{ matrix.node-version }}
 
@@ -37,7 +37,7 @@ jobs:
       # Unit and lint tests
       - name: Tests
         id: test
-        run: npm run test
+        run: npm test
 
       - name: Typescript
         id: typescript_test
