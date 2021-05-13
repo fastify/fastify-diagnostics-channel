@@ -2,17 +2,17 @@ name: Continuous Integration
 on:
   push:
     paths-ignore:
-      - "*.md"
+      - '*.md'
   pull_request:
     paths-ignore:
-      - "*.md"
+      - '*.md'
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [15]
+        node-version: [15, 16]
         os: [ubuntu-latest, windows-latest, macOS-latest]
     name: Node ${{ matrix.node-version }}
 

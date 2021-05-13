@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
 
 jobs:
   pnpm:
@@ -12,8 +17,8 @@ jobs:
     strategy:
       matrix:
         # Maintenance and active LTS
-        node-version: [10, 12, 14, 16]
-        os: [ubuntu-16.04]
+        node-version: [16]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2.3.4
@@ -41,8 +46,8 @@ jobs:
     strategy:
       matrix:
         # Maintenance and active LTS
-        node-version: [10, 12, 14, 16]
-        os: [ubuntu-16.04]
+        node-version: [16]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2.3.4
