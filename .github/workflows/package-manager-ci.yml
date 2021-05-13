@@ -13,7 +13,7 @@ jobs:
       matrix:
         # Maintenance and active LTS
         node-version: [10, 12, 14, 16]
-        os: [ubuntu-16.04]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2.3.4
@@ -42,7 +42,7 @@ jobs:
       matrix:
         # Maintenance and active LTS
         node-version: [10, 12, 14, 16]
-        os: [ubuntu-16.04]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2.3.4
