@@ -1,52 +1,51 @@
 name: Continuous Integration
-on:
+'on':
   push:
     paths-ignore:
       - '*.md'
   pull_request:
     paths-ignore:
       - '*.md'
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [15, 16]
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node-version:
+          - 15
+          - 16
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macOS-latest
     name: Node ${{ matrix.node-version }}
-
     steps:
       - uses: actions/checkout@v2
-
       - name: Use Node.js
         id: setup_node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-
       - name: Install Dependencies
         id: install
         run: npm install --ignore-scripts
-
       - name: Check licenses
         id: license_check
         run: |
           npm run license-checker --if-present
-
-      # Unit and lint tests
       - name: Tests
         id: test
         run: npm test
-
       - name: Typescript
         id: typescript_test
         run: npm run typescript --if-present
-
   automerge:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.7.1
+      - uses: fastify/github-action-merge-dependabot@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
