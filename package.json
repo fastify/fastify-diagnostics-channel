@@ -1,6 +1,6 @@
 {
-  "name": "fastify-diagnostics-channel",
-  "version": "1.0.0",
+  "name": "@fastify/diagnostics-channel",
+  "version": "2.0.0",
   "description": "Plugin to deal with diagnostics_channel on Fastify",
   "main": "lib/index.js",
   "directories": {
@@ -37,5 +37,8 @@
   },
   "engines": {
     "node": ">=15.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
