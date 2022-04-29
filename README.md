@@ -1,13 +1,13 @@
-# fastify-diagnostics-channel
+# @fastify/diagnostics-channel
 
 ![CI](https://github.com/fastify/fastify-diagnostics-channel/workflows/Continuous%20Integration/badge.svg)
-[![NPM version](https://img.shields.io/npm/v/fastify-diagnostics-channel.svg?style=flat)](https://www.npmjs.com/package/fastify-diagnostics-channel)
+[![NPM version](https://img.shields.io/npm/v/@fastify/diagnostics-channel.svg?style=flat)](https://www.npmjs.com/package/@fastify/diagnostics-channel)
 [![Known Vulnerabilities](https://snyk.io/test/github/fastify/fastify-diagnostics-channel/badge.svg)](https://snyk.io/test/github/fastify/fastify-diagnostics-channel)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
 
 ## Install
 ```sh
-npm i fastify-diagnostics-channel --save
+npm i @fastify/diagnostics-channel --save
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ Register as a plugin. This will add some hooks that provide information through 
 ```js
 const fastify = require('fastify')()
 
-fastify.register(require('fastify-diagnostics-channel'), {})
+fastify.register(require('@fastify/diagnostics-channel'), {})
 ```
 
 _**Note**: check [examples/](./examples/index.js) to further information_
