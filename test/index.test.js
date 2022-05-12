@@ -176,7 +176,7 @@ test('Should call publish when timeout happens', async t => {
   })
 
   const address = await fastify.listen(0)
-    t.teardown(() => fastify.close())
+  t.teardown(() => fastify.close())
 
   await t.rejects(pget({
     method: 'GET',
