@@ -5,9 +5,11 @@ const Fastify = require('fastify')
 const dcPlugin = require('../lib/index')
 const dc = require('diagnostics_channel')
 const sget = require('simple-get').concat
+const { promisify } = require('util')
+const pget = promisify(sget)
 
-test('Should call publish when route is registered', t => {
-  t.plan(8)
+test('Should call publish when route is registered', async t => {
+  t.plan(7)
   const fastify = Fastify()
 
   const onRouteChannel = dc.channel('fastify.onRoute')
@@ -43,12 +45,12 @@ test('Should call publish when route is registered', t => {
   ]
   const onMessage = (message) => {
     timesCalled += 1
-    t.deepEqual(message, { ...routeOptions.shift(), handler: message.handler })
-    t.strictEqual(typeof message.handler, 'function')
+    t.same(message, { ...routeOptions.shift(), handler: message.handler })
+    t.equal(typeof message.handler, 'function')
   }
 
   onRouteChannel.subscribe(onMessage)
-  fastify.register(dcPlugin)
+  await fastify.register(dcPlugin)
   fastify.register((instance, _opts, done) => {
     instance.get('/1', (_request, reply) => reply.send({}))
     instance.post('/2', (_request, reply) => reply.send({}))
@@ -56,20 +58,18 @@ test('Should call publish when route is registered', t => {
     done()
   }, { prefix: '/test' })
 
-  fastify.ready(err => {
-    t.error(err)
-    t.equal(timesCalled, 3)
-    onRouteChannel.unsubscribe(onMessage)
-  })
+  await fastify.ready()
+  t.equal(timesCalled, 3)
+  onRouteChannel.unsubscribe(onMessage)
 })
 
-test('Should call publish when response is sent', t => {
-  t.plan(3)
+test('Should call publish when response is sent', async t => {
+  t.plan(2)
   const fastify = Fastify()
 
   const onResponseChannel = dc.channel('fastify.onResponse')
   const onMessage = (message) => {
-    t.deepEqual(message, {
+    t.same(message, {
       reply: replyObj,
       request: requestObj
     })
@@ -78,31 +78,30 @@ test('Should call publish when response is sent', t => {
   let replyObj, requestObj
   onResponseChannel.subscribe(onMessage)
 
-  fastify.register(dcPlugin)
+  await fastify.register(dcPlugin)
   fastify.get('/', (request, reply) => {
     replyObj = reply
     requestObj = request
     reply.send({})
   })
 
-  fastify.inject({
+  const res = await fastify.inject({
     method: 'GET',
     path: '/'
-  }, (err, res) => {
-    t.error(err)
-    t.equal(res.statusCode, 200)
-    onResponseChannel.unsubscribe(onMessage)
   })
+
+  t.equal(res.statusCode, 200)
+  onResponseChannel.unsubscribe(onMessage)
 })
 
-test('Should call publish when some error is throw', t => {
-  t.plan(3)
+test('Should call publish when some error is throw', async t => {
+  t.plan(2)
   const fastify = Fastify()
 
   const onErrorChannel = dc.channel('fastify.onError')
   const error = new Error('test error')
   const onMessage = (message) => {
-    t.deepEqual(message, {
+    t.same(message, {
       error,
       reply: replyObj,
       request: requestObj
@@ -112,25 +111,23 @@ test('Should call publish when some error is throw', t => {
   let replyObj, requestObj
   onErrorChannel.subscribe(onMessage)
 
-  fastify.register(dcPlugin)
+  await fastify.register(dcPlugin)
   fastify.get('/', (request, reply) => {
     replyObj = reply
     requestObj = request
     throw error
   })
 
-  fastify.inject({
+  const res = await fastify.inject({
     method: 'GET',
     path: '/'
-  }, (err, res) => {
-    t.error(err)
-    t.equal(res.statusCode, 500)
-    onErrorChannel.unsubscribe(onMessage)
   })
+  t.equal(res.statusCode, 500)
+  onErrorChannel.unsubscribe(onMessage)
 })
 
-test('Should call onRequest when some request happens', t => {
-  t.plan(5)
+test('Should call onRequest when some request happens', async t => {
+  t.plan(3)
   const fastify = Fastify()
 
   const onRequestChannel = dc.channel('fastify.onRequest')
@@ -140,31 +137,27 @@ test('Should call onRequest when some request happens', t => {
   }
   onRequestChannel.subscribe(onMessage)
 
-  fastify.register(dcPlugin)
+  await fastify.register(dcPlugin)
   fastify.get('/:id', (_request, reply) => reply.send({}))
 
-  fastify.listen(0, (err, address) => {
-    t.error(err)
-    t.tearDown(() => fastify.close())
+  const address = await fastify.listen(0)
+  t.teardown(() => fastify.close())
 
-    sget({
-      method: 'GET',
-      url: `${address}/1`
-    }, (err, res) => {
-      t.error(err)
-      t.equal(res.statusCode, 200)
-      onRequestChannel.unsubscribe(onMessage)
-    })
+  const res = await pget({
+    method: 'GET',
+    url: `${address}/1`
   })
+  t.equal(res.statusCode, 200)
+  onRequestChannel.unsubscribe(onMessage)
 })
 
-test('Should call publish when timeout happens', t => {
-  t.plan(3)
+test('Should call publish when timeout happens', async t => {
+  t.plan(2)
   const fastify = Fastify({ connectionTimeout: 200 })
 
   const onTimeoutChannel = dc.channel('fastify.onTimeout')
   const onMessage = (message) => {
-    t.deepEqual(message, {
+    t.same(message, {
       request: requestObj,
       reply: replyObj,
       connectionTimeout: 200
@@ -174,7 +167,7 @@ test('Should call publish when timeout happens', t => {
   let replyObj, requestObj
   onTimeoutChannel.subscribe(onMessage)
 
-  fastify.register(dcPlugin)
+  await fastify.register(dcPlugin)
   fastify.get('/:id', async (request, reply) => {
     requestObj = request
     replyObj = reply
@@ -182,16 +175,12 @@ test('Should call publish when timeout happens', t => {
     reply.send({})
   })
 
-  fastify.listen(0, (err, address) => {
-    t.error(err)
-    t.tearDown(() => fastify.close())
+  const address = await fastify.listen(0)
+    t.teardown(() => fastify.close())
 
-    sget({
-      method: 'GET',
-      url: `${address}/1`
-    }, (err) => {
-      t.ok(err)
-      onTimeoutChannel.unsubscribe(onMessage)
-    })
-  })
+  await t.rejects(pget({
+    method: 'GET',
+    url: `${address}/1`
+  }))
+  onTimeoutChannel.unsubscribe(onMessage)
 })
