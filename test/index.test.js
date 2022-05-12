@@ -9,7 +9,7 @@ const { promisify } = require('util')
 const pget = promisify(sget)
 
 test('Should call publish when route is registered', async t => {
-  t.plan(7)
+  t.plan(11)
   const fastify = Fastify()
 
   const onRouteChannel = dc.channel('fastify.onRoute')
@@ -41,11 +41,31 @@ test('Should call publish when route is registered', async t => {
       prefix: '/test',
       logLevel: '',
       attachValidation: false
+    },
+    {
+      method: 'HEAD',
+      url: '/test/1',
+      path: '/test/1',
+      routePath: '/1',
+      prefix: '/test',
+      logLevel: '',
+      attachValidation: false
+    },
+    {
+      method: 'HEAD',
+      url: '/test/:id',
+      path: '/test/:id',
+      routePath: '/:id',
+      prefix: '/test',
+      logLevel: '',
+      attachValidation: false
     }
   ]
   const onMessage = (message) => {
     timesCalled += 1
-    t.same(message, { ...routeOptions.shift(), handler: message.handler })
+    const actual = { ...message }
+    delete actual.onSend
+    t.same(actual, { ...routeOptions.shift(), handler: message.handler })
     t.equal(typeof message.handler, 'function')
   }
 
@@ -59,7 +79,7 @@ test('Should call publish when route is registered', async t => {
   }, { prefix: '/test' })
 
   await fastify.ready()
-  t.equal(timesCalled, 3)
+  t.equal(timesCalled, 5)
   onRouteChannel.unsubscribe(onMessage)
 })
 
@@ -140,7 +160,7 @@ test('Should call onRequest when some request happens', async t => {
   await fastify.register(dcPlugin)
   fastify.get('/:id', (_request, reply) => reply.send({}))
 
-  const address = await fastify.listen(0)
+  const address = await fastify.listen({ port: 0 })
   t.teardown(() => fastify.close())
 
   const res = await pget({
@@ -175,7 +195,7 @@ test('Should call publish when timeout happens', async t => {
     reply.send({})
   })
 
-  const address = await fastify.listen(0)
+  const address = await fastify.listen({ port: 0 })
   t.teardown(() => fastify.close())
 
   await t.rejects(pget({
