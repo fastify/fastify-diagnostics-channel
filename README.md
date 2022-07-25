@@ -6,7 +6,7 @@
 
 ## Install
 ```sh
-npm i @fastify/diagnostics-channel --save
+npm i @fastify/diagnostics-channel
 ```
 
 ## Usage
