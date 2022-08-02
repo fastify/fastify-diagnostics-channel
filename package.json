@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/fastify/fastify-diagnostics-channel#readme",
   "dependencies": {
-    "fastify-plugin": "^3.0.0"
+    "fastify-plugin": "^4.0.0"
   },
   "devDependencies": {
     "fastify": "^4.0.0-rc.2",
