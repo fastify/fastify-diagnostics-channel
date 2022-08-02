@@ -25,6 +25,15 @@ test('Should call publish when route is registered', async t => {
       attachValidation: false
     },
     {
+      method: 'HEAD',
+      url: '/test/1',
+      path: '/test/1',
+      routePath: '/1',
+      prefix: '/test',
+      logLevel: '',
+      attachValidation: false
+    },
+    {
       method: 'POST',
       url: '/test/2',
       path: '/test/2',
@@ -44,15 +53,6 @@ test('Should call publish when route is registered', async t => {
     },
     {
       method: 'HEAD',
-      url: '/test/1',
-      path: '/test/1',
-      routePath: '/1',
-      prefix: '/test',
-      logLevel: '',
-      attachValidation: false
-    },
-    {
-      method: 'HEAD',
       url: '/test/:id',
       path: '/test/:id',
       routePath: '/:id',
@@ -65,7 +65,7 @@ test('Should call publish when route is registered', async t => {
     timesCalled += 1
     const actual = { ...message }
     delete actual.onSend
-    t.same(actual, { ...routeOptions.shift(), handler: message.handler })
+    t.same(actual, { ...routeOptions.shift(), handler: message.handler }, timesCalled)
     t.equal(typeof message.handler, 'function')
   }
 
