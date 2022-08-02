@@ -9,7 +9,8 @@
   },
   "types": "types/index.d.ts",
   "scripts": {
-    "test": "standard && tap test/*.test.js"
+    "lint": "standard",
+    "test": "tap"
   },
   "repository": {
     "type": "git",
