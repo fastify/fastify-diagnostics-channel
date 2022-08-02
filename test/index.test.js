@@ -25,6 +25,15 @@ test('Should call publish when route is registered', async t => {
       attachValidation: false
     },
     {
+      method: 'HEAD',
+      url: '/test/1',
+      path: '/test/1',
+      routePath: '/1',
+      prefix: '/test',
+      logLevel: '',
+      attachValidation: false
+    },
+    {
       method: 'POST',
       url: '/test/2',
       path: '/test/2',
@@ -38,15 +47,6 @@ test('Should call publish when route is registered', async t => {
       url: '/test/:id',
       path: '/test/:id',
       routePath: '/:id',
-      prefix: '/test',
-      logLevel: '',
-      attachValidation: false
-    },
-    {
-      method: 'HEAD',
-      url: '/test/1',
-      path: '/test/1',
-      routePath: '/1',
       prefix: '/test',
       logLevel: '',
       attachValidation: false
