@@ -65,7 +65,7 @@ test('Should call publish when route is registered', async t => {
     timesCalled += 1
     const actual = { ...message }
     delete actual.onSend
-    t.same(actual, { ...routeOptions.shift(), handler: message.handler }, timesCalled)
+    t.same(actual, { ...routeOptions.shift(), handler: message.handler })
     t.equal(typeof message.handler, 'function')
   }
 
