@@ -29,6 +29,6 @@ fastify.get('/timeout', async (_request, _reply) => {
   await new Promise((resolve) => setTimeout(resolve, 5000))
 })
 
-fastify.listen(3000, '0.0.0.0', (err) => {
+fastify.listen({ port: 3000 }, '0.0.0.0', (err) => {
   if (err) throw err
 })
