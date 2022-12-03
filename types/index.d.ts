@@ -1,25 +1,41 @@
-import { RouteOptions, FastifyReply, FastifyRequest } from 'fastify';
+import { RouteOptions, FastifyReply, FastifyRequest, FastifyPluginCallback } from 'fastify';
 
-export declare interface OnRouteEvent extends RouteOptions { }
+type FastifyDiagnosticsChannel = FastifyPluginCallback
 
-export declare interface OnTimeoutEvent {
-  reply: FastifyReply;
-  request: FastifyRequest;
-  connectionTimeout: number;
+declare namespace fastifyDiagnosticsChannel {
+  export interface OnRouteEvent extends RouteOptions { }
+  
+  export interface OnTimeoutEvent {
+    reply: FastifyReply;
+    request: FastifyRequest;
+    connectionTimeout: number;
+  }
+  
+  export interface OnErrorEvent {
+    reply: FastifyReply;
+    request: FastifyRequest;
+    error: Error;
+  }
+  
+  export interface OnResponseEvent {
+    reply: FastifyReply;
+    request: FastifyRequest;
+  }
+
+  
+  export interface OnRequestEvent {
+    reply: FastifyReply;
+    request: FastifyRequest;
+  }
+  /**
+   * @deprecated Use OnRequestEvent instead
+   */
+  export type onRequestEvent = OnRequestEvent;
+
+  export const fastifyDiagnosticsChannel: FastifyDiagnosticsChannel
+  export { fastifyDiagnosticsChannel as default }
 }
 
-export declare interface OnErrorEvent {
-  reply: FastifyReply;
-  request: FastifyRequest;
-  error: Error;
-}
+declare function fastifyDiagnosticsChannel(...params: Parameters<FastifyDiagnosticsChannel>): ReturnType<FastifyDiagnosticsChannel>
 
-export declare interface OnResponseEvent {
-  reply: FastifyReply;
-  request: FastifyRequest;
-}
-
-export declare interface onRequestEvent {
-  reply: FastifyReply;
-  request: FastifyRequest;
-}
+export = fastifyDiagnosticsChannel
