@@ -1,5 +1,5 @@
 const fastify = require('fastify')({ logger: true, connectionTimeout: 2000 })
-const dc = require('diagnostics_channel')
+const dc = require('node:diagnostics_channel')
 
 const channels = [
   dc.channel('fastify.onRoute'),
