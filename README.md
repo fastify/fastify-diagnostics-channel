@@ -38,7 +38,7 @@ The channels are prefixed by: `fastify.{HOOK_NAME}`
 This event is sent at every route registered passing a `routeOptions` object
 
 ```js
-const dc = require('diagnostics_channel')
+const dc = require('node:diagnostics_channel')
 const onRoute = dc.channel('fastify.onRoute')
 
 onRoute.subscribe((routeOptions) => {
@@ -61,7 +61,7 @@ onRoute.subscribe((routeOptions) => {
 This event is sent at every response sent by server, it propagates an object containing: [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
 
 ```js
-const dc = require('diagnostics_channel')
+const dc = require('node:diagnostics_channel')
 const onResponse = dc.channel('fastify.onResponse')
 
 onResponse.subscribe((data) => {
@@ -79,7 +79,7 @@ This event is sent when some error is throw on the [lifecycle](https://www.fasti
 The message data is an object containing a [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md), [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md), and Error object
 
 ```js
-const dc = require('diagnostics_channel')
+const dc = require('node:diagnostics_channel')
 const onError = dc.channel('fastify.onError')
 
 onError.subscribe((data) => {
@@ -100,7 +100,7 @@ The message data is an object containing a [`request` object](https://github.com
 Note: by default the Fastify does not limit the request time.
 
 ```js
-const dc = require('diagnostics_channel')
+const dc = require('node:diagnostics_channel')
 const onTimeout = dc.channel('fastify.onTimeout')
 
 onTimeout.subscribe((data) => {
@@ -117,7 +117,7 @@ onTimeout.subscribe((data) => {
 This event is sent when a request is received; the message data is an object containing a [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md) and [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md)
 
 ```js
-const dc = require('diagnostics_channel')
+const dc = require('node:diagnostics_channel')
 const onRequest = dc.channel('fastify.onRequest')
 
 onRequest.subscribe((data) => {
