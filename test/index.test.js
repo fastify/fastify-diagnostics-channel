@@ -3,9 +3,9 @@
 const { test } = require('tap')
 const Fastify = require('fastify')
 const dcPlugin = require('../lib/index')
-const dc = require('diagnostics_channel')
+const dc = require('node:diagnostics_channel')
 const sget = require('simple-get').concat
-const { promisify } = require('util')
+const { promisify } = require('node:util')
 const pget = promisify(sget)
 
 test('Should call publish when route is registered', async t => {
