@@ -1,3 +1,5 @@
+'use strict'
+
 const fastify = require('fastify')({ logger: true, connectionTimeout: 2000 })
 const dc = require('node:diagnostics_channel')
 
