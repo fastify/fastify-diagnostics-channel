@@ -3,6 +3,7 @@
   "version": "4.1.0",
   "description": "Plugin to deal with diagnostics_channel on Fastify",
   "main": "lib/index.js",
+  "type": "commonjs",
   "directories": {
     "example": "examples",
     "test": "test"
