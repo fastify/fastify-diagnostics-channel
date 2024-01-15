@@ -74,7 +74,7 @@ onResponse.subscribe((data) => {
 
 **Channel**: `fastify.onError`
 
-This event is sent when some error is throw on the [lifecycle](https://www.fastify.io/docs/latest/Lifecycle/) of Fastify.
+This event is sent when some error is throw on the [lifecycle](https://fastify.dev/docs/latest/Lifecycle/) of Fastify.
 
 The message data is an object containing a [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md), [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md), and Error object
 
@@ -93,7 +93,7 @@ onError.subscribe((data) => {
 
 **Channel**: `fastify.onTimeout`
 
-This event is sent when a request spent more time than [`connectionTimeout`](https://www.fastify.io/docs/latest/Server/#connectiontimeout) specifies. For further information about `connectionTimeout` check the Fastify documentation.
+This event is sent when a request spent more time than [`connectionTimeout`](https://fastify.dev/docs/latest/Server/#connectiontimeout) specifies. For further information about `connectionTimeout` check the Fastify documentation.
 
 The message data is an object containing a [`request` object](https://github.com/fastify/fastify/blob/master/docs/Request.md), [`reply` object](https://github.com/fastify/fastify/blob/master/docs/Reply.md), and `connectionTimeout` value
 
