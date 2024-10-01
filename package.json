@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/fastify/fastify-diagnostics-channel#readme",
   "dependencies": {
-    "fastify-plugin": "^5.0.0-pre.fv5.1"
+    "fastify-plugin": "^5.0.0"
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.1.0",
