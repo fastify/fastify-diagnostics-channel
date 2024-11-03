@@ -4,25 +4,25 @@ type FastifyDiagnosticsChannel = FastifyPluginCallback
 
 declare namespace fastifyDiagnosticsChannel {
   export interface OnRouteEvent extends RouteOptions { }
-  
+
   export interface OnTimeoutEvent {
     reply: FastifyReply;
     request: FastifyRequest;
     connectionTimeout: number;
   }
-  
+
   export interface OnErrorEvent {
     reply: FastifyReply;
     request: FastifyRequest;
     error: Error;
   }
-  
+
   export interface OnResponseEvent {
     reply: FastifyReply;
     request: FastifyRequest;
   }
 
-  
+
   export interface OnRequestEvent {
     reply: FastifyReply;
     request: FastifyRequest;
