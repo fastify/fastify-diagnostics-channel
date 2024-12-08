@@ -1,4 +1,4 @@
-import { RouteOptions, FastifyReply, FastifyRequest, FastifyPluginCallback } from 'fastify';
+import { RouteOptions, FastifyReply, FastifyRequest, FastifyPluginCallback } from 'fastify'
 
 type FastifyDiagnosticsChannel = FastifyPluginCallback
 
@@ -22,7 +22,6 @@ declare namespace fastifyDiagnosticsChannel {
     request: FastifyRequest;
   }
 
-
   export interface OnRequestEvent {
     reply: FastifyReply;
     request: FastifyRequest;
@@ -30,12 +29,12 @@ declare namespace fastifyDiagnosticsChannel {
   /**
    * @deprecated Use OnRequestEvent instead
    */
-  export type onRequestEvent = OnRequestEvent;
+  export type onRequestEvent = OnRequestEvent
 
   export const fastifyDiagnosticsChannel: FastifyDiagnosticsChannel
   export { fastifyDiagnosticsChannel as default }
 }
 
-declare function fastifyDiagnosticsChannel(...params: Parameters<FastifyDiagnosticsChannel>): ReturnType<FastifyDiagnosticsChannel>
+declare function fastifyDiagnosticsChannel (...params: Parameters<FastifyDiagnosticsChannel>): ReturnType<FastifyDiagnosticsChannel>
 
 export = fastifyDiagnosticsChannel
