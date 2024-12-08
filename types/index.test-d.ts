@@ -1,6 +1,6 @@
-import { OnRouteEvent, OnErrorEvent, OnResponseEvent, OnTimeoutEvent, fastifyDiagnosticsChannel, onRequestEvent, OnRequestEvent } from ".."
-import { expectDeprecated, expectType } from "tsd"
-import { FastifyPluginCallback, FastifyReply, FastifyRequest, RouteOptions } from "fastify"
+import { OnRouteEvent, OnErrorEvent, OnResponseEvent, OnTimeoutEvent, fastifyDiagnosticsChannel, onRequestEvent, OnRequestEvent } from '..'
+import { expectDeprecated, expectType } from 'tsd'
+import { FastifyPluginCallback, FastifyReply, FastifyRequest, RouteOptions } from 'fastify'
 
 expectType<RouteOptions>({} as OnRouteEvent)
 
