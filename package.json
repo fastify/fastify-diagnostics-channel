@@ -25,12 +25,41 @@
     "diagnostics",
     "diagnostics_channel"
   ],
-  "author": "Fastify Team",
+  "author": "Rafael Gonzaga <rafael.nunu@hotmail.com>",
+  "contributors": [
+    {
+      "name": "Matteo Collina",
+      "email": "hello@matteocollina.com"
+    },
+    {
+      "name": "James Sumners",
+      "url": "https://james.sumners.info"
+    },
+    {
+      "name": "Aras Abbasi",
+      "email": "aras.abbasi@gmail.com"
+    },
+    {
+      "name": "Frazer Smith",
+      "email": "frazer.dev@icloud.com",
+      "url": "https://github.com/fdawgs"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fastify/fastify-diagnostics-channel/issues"
   },
   "homepage": "https://github.com/fastify/fastify-diagnostics-channel#readme",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/fastify"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fastify"
+    }
+  ],
   "dependencies": {
     "fastify-plugin": "^5.0.0"
   },
