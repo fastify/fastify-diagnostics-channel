@@ -1,4 +1,4 @@
-> [!NOTE] 
+> **Note**
 > This package has been deprecated;
 > `diagnostics_channel` is now [built in to Fastify v5](https://fastify.dev/docs/latest/Reference/Hooks/#diagnostics-channel-hooks).
 
