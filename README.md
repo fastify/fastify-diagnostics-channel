@@ -1,3 +1,7 @@
+> [!NOTE] 
+> This package has been deprecated;
+> `diagnostics_channel` is now [built in to Fastify v5](https://fastify.dev/docs/latest/Reference/Hooks/#diagnostics-channel-hooks).
+
 # @fastify/diagnostics-channel
 
 [![CI](https://github.com/fastify/fastify-diagnostics-channel/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/fastify/fastify-diagnostics-channel/actions/workflows/ci.yml)
