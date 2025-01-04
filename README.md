@@ -1,6 +1,6 @@
 > **Note**
 > This package has been deprecated;
-> `diagnostics_channel` is now [built in to Fastify v5](https://fastify.dev/docs/latest/Reference/Hooks/#diagnostics-channel-hooks).
+> `diagnostics_channel` is now [built into Fastify v5](https://fastify.dev/docs/latest/Reference/Hooks/#diagnostics-channel-hooks).
 
 # @fastify/diagnostics-channel
 
@@ -48,7 +48,7 @@ const onRoute = dc.channel('fastify.onRoute')
 onRoute.subscribe((routeOptions) => {
   routeOptions.method
   routeOptions.schema
-  routeOptions.url // the complete URL of the route, it will inclued the prefix if any
+  routeOptions.url // the complete URL of the route, it will include the prefix if any
   routeOptions.path // `url` alias
   routeOptions.routePath // the URL of the route without the prefix
   routeOptions.bodyLimit
@@ -62,7 +62,7 @@ onRoute.subscribe((routeOptions) => {
 
 **Channel**: `fastify.onResponse`
 
-This event is sent at every response sent by server, it propagates an object containing: [`request` object](https://fastify.dev/docs/latest/Reference/Request) and [`reply` object](https://fastify.dev/docs/latest/Reference/Reply)
+This event is sent on every response sent by the server, it propagates an object containing: [`request` object](https://fastify.dev/docs/latest/Reference/Request) and [`reply` object](https://fastify.dev/docs/latest/Reference/Reply)
 
 ```js
 const dc = require('node:diagnostics_channel')
@@ -78,7 +78,7 @@ onResponse.subscribe((data) => {
 
 **Channel**: `fastify.onError`
 
-This event is sent when some error is throw on the [lifecycle](https://fastify.dev/docs/latest/Reference/Lifecycle/) of Fastify.
+This event is sent when an error is thrown during the Fastify [lifecycle](https://fastify.dev/docs/latest/Reference/Lifecycle/).
 
 The message data is an object containing a [`request` object](https://fastify.dev/docs/latest/Reference/Request), [`reply` object](https://fastify.dev/docs/latest/Reference/Reply), and Error object
 
@@ -89,7 +89,7 @@ const onError = dc.channel('fastify.onError')
 onError.subscribe((data) => {
   data.request
   data.reply
-  data.error // error object throwed
+  data.error // error object thrown
 })
 ```
 
@@ -97,11 +97,11 @@ onError.subscribe((data) => {
 
 **Channel**: `fastify.onTimeout`
 
-This event is sent when a request spent more time than [`connectionTimeout`](https://fastify.dev/docs/latest/Reference/Server/#connectiontimeout) specifies. For further information about `connectionTimeout` check the Fastify documentation.
+This event is sent when a request spends more time than [`connectionTimeout`](https://fastify.dev/docs/latest/Reference/Server/#connectiontimeout) specifies. For further information about `connectionTimeout` check the Fastify documentation.
 
 The message data is an object containing a [`request` object](https://fastify.dev/docs/latest/Reference/Request), [`reply` object](https://fastify.dev/docs/latest/Reference/Reply), and `connectionTimeout` value
 
-Note: by default the Fastify does not limit the request time.
+Note: by default Fastify does not limit the request time.
 
 ```js
 const dc = require('node:diagnostics_channel')
