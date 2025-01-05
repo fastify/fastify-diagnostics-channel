@@ -13,6 +13,17 @@
 npm i @fastify/diagnostics-channel
 ```
 
+### Compatibility
+| Plugin version | Fastify version |
+| ---------------|-----------------|
+| `^5.x`         | `^5.x`          |
+| `^4.x`         | `^4.x`          |
+| `^1.x`         | `^3.x`          |
+
+Please note that if a Fastify version is out of support, then so are the corresponding versions of this plugin
+in the table above.
+See [Fastify's LTS policy](https://github.com/fastify/fastify/blob/main/docs/Reference/LTS.md) for more details.
+
 ## Usage
 
 Register as a plugin. This will add some hooks that provide information through [`diagnostics_channel`](https://nodejs.org/api/diagnostics_channel.html)
