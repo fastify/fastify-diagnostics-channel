@@ -1,6 +1,6 @@
 'use strict'
 
-const { test } = require('tap')
+const { test } = require('node:test')
 const Fastify = require('fastify')
 const dcPlugin = require('../lib/index')
 const dc = require('node:diagnostics_channel')
@@ -65,8 +65,8 @@ test('Should call publish when route is registered', async t => {
     timesCalled += 1
     const actual = { ...message }
     delete actual.onSend
-    t.same(actual, { ...routeOptions.shift(), handler: message.handler })
-    t.equal(typeof message.handler, 'function')
+    t.assert.deepStrictEqual(actual, { ...routeOptions.shift(), handler: message.handler })
+    t.assert.deepStrictEqual(typeof message.handler, 'function')
   }
 
   onRouteChannel.subscribe(onMessage)
@@ -79,7 +79,7 @@ test('Should call publish when route is registered', async t => {
   }, { prefix: '/test' })
 
   await fastify.ready()
-  t.equal(timesCalled, 5)
+  t.assert.deepStrictEqual(timesCalled, 5)
   onRouteChannel.unsubscribe(onMessage)
 })
 
@@ -89,7 +89,7 @@ test('Should call publish when response is sent', async t => {
 
   const onResponseChannel = dc.channel('fastify.onResponse')
   const onMessage = (message) => {
-    t.same(message, {
+    t.assert.deepStrictEqual(message, {
       reply: replyObj,
       request: requestObj
     })
@@ -110,7 +110,7 @@ test('Should call publish when response is sent', async t => {
     path: '/'
   })
 
-  t.equal(res.statusCode, 200)
+  t.assert.deepStrictEqual(res.statusCode, 200)
   onResponseChannel.unsubscribe(onMessage)
 })
 
@@ -121,7 +121,7 @@ test('Should call publish when some error is throw', async t => {
   const onErrorChannel = dc.channel('fastify.onError')
   const error = new Error('test error')
   const onMessage = (message) => {
-    t.same(message, {
+    t.assert.deepStrictEqual(message, {
       error,
       reply: replyObj,
       request: requestObj
@@ -142,7 +142,7 @@ test('Should call publish when some error is throw', async t => {
     method: 'GET',
     path: '/'
   })
-  t.equal(res.statusCode, 500)
+  t.assert.deepStrictEqual(res.statusCode, 500)
   onErrorChannel.unsubscribe(onMessage)
 })
 
@@ -152,8 +152,8 @@ test('Should call onRequest when some request happens', async t => {
 
   const onRequestChannel = dc.channel('fastify.onRequest')
   const onMessage = (message) => {
-    t.equal(typeof message.request, 'object')
-    t.equal(typeof message.reply, 'object')
+    t.assert.deepStrictEqual(typeof message.request, 'object')
+    t.assert.deepStrictEqual(typeof message.reply, 'object')
   }
   onRequestChannel.subscribe(onMessage)
 
@@ -161,13 +161,13 @@ test('Should call onRequest when some request happens', async t => {
   fastify.get('/:id', (_request, reply) => reply.send({}))
 
   const address = await fastify.listen({ port: 0 })
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 
   const res = await pget({
     method: 'GET',
     url: `${address}/1`
   })
-  t.equal(res.statusCode, 200)
+  t.assert.deepStrictEqual(res.statusCode, 200)
   onRequestChannel.unsubscribe(onMessage)
 })
 
@@ -177,7 +177,7 @@ test('Should call publish when timeout happens', async t => {
 
   const onTimeoutChannel = dc.channel('fastify.onTimeout')
   const onMessage = (message) => {
-    t.same(message, {
+    t.assert.deepStrictEqual(message, {
       request: requestObj,
       reply: replyObj,
       connectionTimeout: 200
@@ -196,9 +196,9 @@ test('Should call publish when timeout happens', async t => {
   })
 
   const address = await fastify.listen({ port: 0 })
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 
-  await t.rejects(pget({
+  await t.assert.rejects(pget({
     method: 'GET',
     url: `${address}/1`
   }))
